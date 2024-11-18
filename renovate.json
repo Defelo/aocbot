@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "extends": ["config:recommended"],
+
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": ["cargo"],
+      "groupName": "rust minor/patch",
+      "automerge": true
+    }
+  ],
+
+  "postUpgradeTasks": {
+    "commands": ["nix run .#generate"],
+    "executionMode": "branch"
+  }
+}

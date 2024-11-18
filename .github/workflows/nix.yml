@@ -1,0 +1,19 @@
+name: Nix
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  cargo-nix:
+    name: cargo-nix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v16
+      - run: nix run .#generate
+      - run: git diff --exit-code

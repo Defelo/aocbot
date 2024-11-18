@@ -1,0 +1,9 @@
+{
+  "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#matrix-sdk-base@0.7.0": "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg",
+  "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#matrix-sdk-common@0.7.0": "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg",
+  "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#matrix-sdk-crypto@0.7.2": "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg",
+  "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#matrix-sdk-indexeddb@0.7.0": "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg",
+  "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#matrix-sdk-sqlite@0.7.1": "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg",
+  "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#matrix-sdk-store-encryption@0.7.0": "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg",
+  "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#matrix-sdk@0.7.1": "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg"
+}

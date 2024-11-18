@@ -1,0 +1,25 @@
+local_timezone = "+00:00" # UTC
+users = []
+
+[matrix]
+# homeserver = ""
+# store_path = ""
+# admin_ids = []
+# room_id = ""
+command_prefix = "!"
+
+[aoc]
+# session_file = ""
+leaderboard_rows = 20
+default_cache_ttl = 900 # 15 minutes
+cache_ttl_rules = []
+repo_rules = [
+  { regex = "^https://github\\.com/(?<owner>[^/]+)/(?<repo>[^/]+)(/.*)?$", title = "${owner}/${repo}" },
+  { regex = "^https://gitlab\\.com/(?<owner>[^/]+)/(?<repo>[^/]+)(/.*)?$", title = "${owner}/${repo}" },
+  { regex = "^https://gitea\\.com/(?<owner>[^/]+)/(?<repo>[^/]+)(/.*)?$", title = "${owner}/${repo}" },
+  { regex = "^https://codeberg\\.org/(?<owner>[^/]+)/(?<repo>[^/]+)(/.*)?$", title = "${owner}/${repo}" },
+]
+
+[garygrady]
+interval = 600
+max_age = 86400 # 24 hours

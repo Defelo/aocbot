@@ -1,0 +1,28 @@
+[package]
+name = "aocbot"
+version = "0.0.0"
+edition = "2021"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+
+[dependencies]
+anyhow = { version = "1.0.93", default-features = false, features = ["std"] }
+chrono = { version = "0.4.38", default-features = false, features = ["clock", "serde"] }
+config = { version = "0.14.1", default-features = false, features = ["toml"] }
+matrix-sdk = { version = "0.7.1", default-features = false, features = ["rustls-tls", "bundled-sqlite", "e2e-encryption", "markdown"] }
+mime_guess = { version = "2.0.5", default-features = false }
+regex = { version = "1.11.1", default-features = false }
+reqwest = { version = "0.12.9", default-features = false, features = ["json", "rustls-tls-webpki-roots"] }
+rmp-serde = { version = "1.3.0", default-features = false }
+serde = { version = "1.0.215", default-features = false, features = ["derive"] }
+tokio = { version = "1.41.1", default-features = false, features = ["rt-multi-thread", "macros"] }
+tracing = { version = "0.1.40", default-features = false, features = ["std"] }
+tracing-subscriber = { version = "0.3.18", default-features = false, features = ["ansi", "env-filter", "std"] }
+
+[patch.crates-io]
+matrix-sdk = { git = "https://github.com/matrix-org/matrix-rust-sdk", rev = "05505a5a48f840be9099cf8548b3fa8ecb6d5283" }
