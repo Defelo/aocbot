@@ -1709,6 +1709,41 @@ rec {
           "tracing" = [ "dep:tracing" ];
         };
       };
+      "decancer" = rec {
+        crateName = "decancer";
+        version = "3.2.8";
+        edition = "2021";
+        sha256 = "1jfc06k1jn943ka608k2c9fmhhz2ax0gdixfypi3b4scv0fl0h8s";
+        authors = [
+          "null (https://github.com/null8626)"
+        ];
+        dependencies = [
+          {
+            name = "lazy_static";
+            packageId = "lazy_static";
+            optional = true;
+          }
+          {
+            name = "paste";
+            packageId = "paste";
+          }
+          {
+            name = "regex";
+            packageId = "regex";
+            optional = true;
+            usesDefaultFeatures = false;
+            features = [ "std" "perf" ];
+          }
+        ];
+        features = {
+          "default" = [ "options" "separators" "leetspeak" ];
+          "lazy_static" = [ "dep:lazy_static" ];
+          "leetspeak" = [ "regex" "lazy_static" ];
+          "regex" = [ "dep:regex" ];
+          "serde" = [ "dep:serde" ];
+        };
+        resolvedDefaultFeatures = [ "default" "lazy_static" "leetspeak" "options" "regex" "separators" ];
+      };
       "delegate-display" = rec {
         crateName = "delegate-display";
         version = "2.1.1";
@@ -4573,14 +4608,9 @@ rec {
       };
       "matrix-sdk" = rec {
         crateName = "matrix-sdk";
-        version = "0.7.1";
+        version = "0.8.0";
         edition = "2021";
-        workspace_member = null;
-        src = pkgs.fetchgit {
-          url = "https://github.com/matrix-org/matrix-rust-sdk";
-          rev = "05505a5a48f840be9099cf8548b3fa8ecb6d5283";
-          sha256 = "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg";
-        };
+        sha256 = "1l6jqw89kdagyx7m168nhkma94k8zfgff21mr8v8nvh7lclv5qp5";
         libName = "matrix_sdk";
         authors = [
           "Damir Jelić <poljar@termina.org.uk>"
@@ -4837,14 +4867,9 @@ rec {
       };
       "matrix-sdk-base" = rec {
         crateName = "matrix-sdk-base";
-        version = "0.7.0";
+        version = "0.8.0";
         edition = "2021";
-        workspace_member = null;
-        src = pkgs.fetchgit {
-          url = "https://github.com/matrix-org/matrix-rust-sdk";
-          rev = "05505a5a48f840be9099cf8548b3fa8ecb6d5283";
-          sha256 = "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg";
-        };
+        sha256 = "1cisbf59pbi9a3w5k8wp3485ll0schx4sp8011296kv2zx1dwvhj";
         libName = "matrix_sdk_base";
         authors = [
           "Damir Jelić <poljar@termina.org.uk>"
@@ -4862,6 +4887,10 @@ rec {
             name = "bitflags";
             packageId = "bitflags";
             features = [ "serde" ];
+          }
+          {
+            name = "decancer";
+            packageId = "decancer";
           }
           {
             name = "eyeball";
@@ -4932,6 +4961,10 @@ rec {
             usesDefaultFeatures = false;
             features = [ "std" ];
           }
+          {
+            name = "unicode-normalization";
+            packageId = "unicode-normalization";
+          }
         ];
         devDependencies = [
           {
@@ -4955,14 +4988,9 @@ rec {
       };
       "matrix-sdk-common" = rec {
         crateName = "matrix-sdk-common";
-        version = "0.7.0";
+        version = "0.8.0";
         edition = "2021";
-        workspace_member = null;
-        src = pkgs.fetchgit {
-          url = "https://github.com/matrix-org/matrix-rust-sdk";
-          rev = "05505a5a48f840be9099cf8548b3fa8ecb6d5283";
-          sha256 = "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg";
-        };
+        sha256 = "0xfx39sd4zharqmz2z0jpf7fyjss8j11dsv73m27aqsq2c25nd8w";
         libName = "matrix_sdk_common";
         authors = [
           "Damir Jelić <poljar@termina.org.uk>"
@@ -5063,14 +5091,9 @@ rec {
       };
       "matrix-sdk-crypto" = rec {
         crateName = "matrix-sdk-crypto";
-        version = "0.7.2";
+        version = "0.8.0";
         edition = "2021";
-        workspace_member = null;
-        src = pkgs.fetchgit {
-          url = "https://github.com/matrix-org/matrix-rust-sdk";
-          rev = "05505a5a48f840be9099cf8548b3fa8ecb6d5283";
-          sha256 = "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg";
-        };
+        sha256 = "11cf3vwvlh5f75m1v0k7fdrw0cgpyvzj90hp4s20xwm6j3z6fng4";
         libName = "matrix_sdk_crypto";
         authors = [
           "Damir Jelić <poljar@termina.org.uk>"
@@ -5250,14 +5273,9 @@ rec {
       };
       "matrix-sdk-indexeddb" = rec {
         crateName = "matrix-sdk-indexeddb";
-        version = "0.7.0";
+        version = "0.8.0";
         edition = "2021";
-        workspace_member = null;
-        src = pkgs.fetchgit {
-          url = "https://github.com/matrix-org/matrix-rust-sdk";
-          rev = "05505a5a48f840be9099cf8548b3fa8ecb6d5283";
-          sha256 = "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg";
-        };
+        sha256 = "1w55x4m52xmn5bdvyqmxgm0sqdwxjnwgir4lamkpmjdrnq51ng5a";
         libName = "matrix_sdk_indexeddb";
         dependencies = [
           {
@@ -5379,14 +5397,9 @@ rec {
       };
       "matrix-sdk-sqlite" = rec {
         crateName = "matrix-sdk-sqlite";
-        version = "0.7.1";
+        version = "0.8.0";
         edition = "2021";
-        workspace_member = null;
-        src = pkgs.fetchgit {
-          url = "https://github.com/matrix-org/matrix-rust-sdk";
-          rev = "05505a5a48f840be9099cf8548b3fa8ecb6d5283";
-          sha256 = "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg";
-        };
+        sha256 = "15sb8zdn8irifhyzm2ghgzbazfrl2dmd13vj3wa8kaws6xjcihs5";
         libName = "matrix_sdk_sqlite";
         dependencies = [
           {
@@ -5489,14 +5502,9 @@ rec {
       };
       "matrix-sdk-store-encryption" = rec {
         crateName = "matrix-sdk-store-encryption";
-        version = "0.7.0";
+        version = "0.8.0";
         edition = "2021";
-        workspace_member = null;
-        src = pkgs.fetchgit {
-          url = "https://github.com/matrix-org/matrix-rust-sdk";
-          rev = "05505a5a48f840be9099cf8548b3fa8ecb6d5283";
-          sha256 = "08r1v0jb635wzi3iai5d90ca04hl4g7v3yhxhgabbzismifvlzdg";
-        };
+        sha256 = "13ac2agdjsqm50yiimxqfxx4fjsmw54j6hhhxm4jix5vzl0c01cx";
         libName = "matrix_sdk_store_encryption";
         dependencies = [
           {
@@ -9944,6 +9952,28 @@ rec {
           "David Tolnay <dtolnay@gmail.com>"
         ];
 
+      };
+      "unicode-normalization" = rec {
+        crateName = "unicode-normalization";
+        version = "0.1.24";
+        edition = "2018";
+        sha256 = "0mnrk809z3ix1wspcqy97ld5wxdb31f3xz6nsvg5qcv289ycjcsh";
+        libName = "unicode_normalization";
+        authors = [
+          "kwantam <kwantam@gmail.com>"
+          "Manish Goregaokar <manishsmail@gmail.com>"
+        ];
+        dependencies = [
+          {
+            name = "tinyvec";
+            packageId = "tinyvec";
+            features = [ "alloc" ];
+          }
+        ];
+        features = {
+          "default" = [ "std" ];
+        };
+        resolvedDefaultFeatures = [ "default" "std" ];
       };
       "universal-hash" = rec {
         crateName = "universal-hash";
