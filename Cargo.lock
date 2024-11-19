@@ -3555,8 +3555,3 @@ dependencies = [
  "quote",
  "syn",
 ]
-
-[[patch.unused]]
-name = "matrix-sdk"
-version = "0.7.1"
-source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
