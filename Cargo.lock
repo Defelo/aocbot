@@ -561,6 +561,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "decancer"
+version = "3.2.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1a41401dd84c9335e2f5aec7f64057e243585d62622260d41c245919a601ccc9"
+dependencies = [
+ "lazy_static",
+ "paste",
+ "regex",
+]
+
+[[package]]
 name = "delegate-display"
 version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1493,8 +1504,9 @@ dependencies = [
 
 [[package]]
 name = "matrix-sdk"
-version = "0.7.1"
-source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e5e2b229a3076e8b36ca3508e79efb6892a4ea841699504ff74fb59910c7d2d0"
 dependencies = [
  "anymap2",
  "aquamarine",
@@ -1542,12 +1554,14 @@ dependencies = [
 
 [[package]]
 name = "matrix-sdk-base"
-version = "0.7.0"
-source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "126ede42ff624f934408005d4d3a641a505a101997a359f85029ae9b8a5b3ab2"
 dependencies = [
  "as_variant",
  "async-trait",
  "bitflags",
+ "decancer",
  "eyeball",
  "eyeball-im",
  "futures-util",
@@ -1563,12 +1577,14 @@ dependencies = [
  "thiserror 1.0.69",
  "tokio",
  "tracing",
+ "unicode-normalization",
 ]
 
 [[package]]
 name = "matrix-sdk-common"
-version = "0.7.0"
-source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1c355b0413586375441d67eb1682445a4bef8ebb127cf12bce0a7ed2741add75"
 dependencies = [
  "async-trait",
  "eyeball-im",
@@ -1590,8 +1606,9 @@ dependencies = [
 
 [[package]]
 name = "matrix-sdk-crypto"
-version = "0.7.2"
-source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e45967fe90a6f20e8426178224fff6f731c0737367821d6a39ae40baf91e8e85"
 dependencies = [
  "aes",
  "as_variant",
@@ -1629,8 +1646,9 @@ dependencies = [
 
 [[package]]
 name = "matrix-sdk-indexeddb"
-version = "0.7.0"
-source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aa3c1b0ab6b9c97a675594e4f8b8959d37ac417dbd62bfdb2ab676512ae9a5f0"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -1657,8 +1675,9 @@ dependencies = [
 
 [[package]]
 name = "matrix-sdk-sqlite"
-version = "0.7.1"
-source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "45c3c864379aab89141f728fd06a1334bbafd67ff089fa3d74314764db474b97"
 dependencies = [
  "async-trait",
  "deadpool-sqlite",
@@ -1679,8 +1698,9 @@ dependencies = [
 
 [[package]]
 name = "matrix-sdk-store-encryption"
-version = "0.7.0"
-source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d05c000fdbbf42849ed10422349e1554b477a77b8d7183d28156bd99e124c8d"
 dependencies = [
  "base64",
  "blake3",
@@ -3004,6 +3024,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e91b56cd4cadaeb79bbf1a5645f6b4f8dc5bde8834ad5894a8db35fda9efa1fe"
 
 [[package]]
+name = "unicode-normalization"
+version = "0.1.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5033c97c4262335cded6d6fc3e5c18ab755e1a3dc96376350f3d8e9f009ad956"
+dependencies = [
+ "tinyvec",
+]
+
+[[package]]
 name = "universal-hash"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3526,3 +3555,8 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[patch.unused]]
+name = "matrix-sdk"
+version = "0.7.1"
+source = "git+https://github.com/matrix-org/matrix-rust-sdk?rev=05505a5a48f840be9099cf8548b3fa8ecb6d5283#05505a5a48f840be9099cf8548b3fa8ecb6d5283"
