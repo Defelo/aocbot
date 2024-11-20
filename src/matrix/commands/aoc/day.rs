@@ -15,7 +15,7 @@ use crate::{
     },
     utils::{
         datetime::DateTimeExt,
-        fmt::{fmt_timedelta, format_rank},
+        fmt::{fmt_rank, fmt_timedelta},
     },
 };
 
@@ -169,7 +169,7 @@ pub async fn invoke(
             Default::default()
         };
 
-        let rank = format_rank(rank);
+        let rank = fmt_rank(rank);
 
         let completion = context
             .config

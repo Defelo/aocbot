@@ -1,4 +1,4 @@
-use std::fmt::Write;
+use std::{cmp::Reverse, fmt::Write};
 
 use chrono::{DateTime, TimeZone, Utc};
 use matrix_sdk::{
@@ -15,7 +15,7 @@ use crate::{
     },
     utils::{
         datetime::DateTimeExt,
-        fmt::{fmt_timedelta, format_rank},
+        fmt::{fmt_rank, fmt_timedelta},
     },
 };
 
@@ -110,7 +110,7 @@ pub async fn invoke(
     let repo_title = repo_title.as_deref().unwrap_or(repo);
 
     let stars = user.stars;
-    let rank = format_rank(leaderboard.members.values().filter(|&o| o <= user).count());
+    let rank = fmt_rank(leaderboard.members.values().filter(|&o| o <= user).count());
     let local_score = user.local_score;
     let global_score = user.global_score;
 
@@ -179,23 +179,49 @@ pub async fn invoke(
             .and_then(|c| c.snd.as_ref())
             .map(|c| c.get_star_ts);
 
+        let rank_p1 = leaderboard
+            .members
+            .values()
+            .filter(|m| {
+                m.completion_day_level
+                    .get(&d)
+                    .map(|c| Reverse(c.fst.get_star_ts))
+                    >= p1.map(Reverse)
+            })
+            .count();
+
+        let rank_p2 = leaderboard
+            .members
+            .values()
+            .filter(|m| {
+                m.completion_day_level
+                    .get(&d)
+                    .and_then(|d| d.snd.as_ref())
+                    .map(|c| Reverse(c.get_star_ts))
+                    >= p2.map(Reverse)
+            })
+            .count();
+
         match (p1, p2) {
             (None, _) => write!(&mut out, "<tr><td>{d}</td><td></td><td></td></tr>"),
             (Some(p1), None) => write!(
                 &mut out,
-                "<tr><td>{d}</td><td>{} (<b>{}</b>)</td><td></td></tr>",
+                "<tr><td>{d}</td><td>{} (<b>{}</b>, <b>{}</b>)</td><td></td></tr>",
                 fmt_dt(p1),
-                fmt_timedelta(p1 - unlock)
+                fmt_timedelta(p1 - unlock),
+                fmt_rank(rank_p1),
             ),
             (Some(p1), Some(p2)) => write!(
                 &mut out,
-                "<tr><td>{d}</td><td>{} (<b>{}</b>)</td><td>{} (+<b>{}</b> &rArr; \
-                 <b>{}</b>)</td></tr>",
+                "<tr><td>{d}</td><td>{} (<b>{}</b>, <b>{}</b>)</td><td>{} (+<b>{}</b> &rArr; \
+                 <b>{}</b>, <b>{}</b>)</td></tr>",
                 fmt_dt(p1),
                 fmt_timedelta(p1 - unlock),
+                fmt_rank(rank_p1),
                 fmt_dt(p2),
                 fmt_timedelta(p2 - p1),
-                fmt_timedelta(p2 - unlock)
+                fmt_timedelta(p2 - unlock),
+                fmt_rank(rank_p2),
             ),
         }
         .unwrap();

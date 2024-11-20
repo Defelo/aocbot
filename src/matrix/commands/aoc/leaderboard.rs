@@ -13,7 +13,7 @@ use crate::{
         commands::{parser::ParsedCommand, send_error},
         utils::{error_message, html_message, RoomExt},
     },
-    utils::{datetime::DateTimeExt, fmt::format_rank},
+    utils::{datetime::DateTimeExt, fmt::fmt_rank},
 };
 
 pub async fn invoke(
@@ -144,7 +144,7 @@ pub async fn invoke(
             Default::default()
         };
 
-        let rank = format_rank(rank);
+        let rank = fmt_rank(rank);
 
         write!(
             &mut leaderboard,

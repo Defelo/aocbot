@@ -10,7 +10,10 @@ use crate::{
         models::{PrivateLeaderboard, PrivateLeaderboardMember, PrivateLeaderboardMembers},
     },
     matrix::utils::notice,
-    utils::datetime::{now, DateTimeExt},
+    utils::{
+        datetime::{now, DateTimeExt},
+        fmt::fmt_rank,
+    },
     Context,
 };
 
@@ -89,11 +92,20 @@ async fn send_notifications(
             let old_completion = old_member.completion_day_level.get(&day);
 
             if old_completion.is_none() {
+                let rank = new_leaderboard
+                    .values()
+                    .filter(|m| {
+                        m.completion_day_level
+                            .get(&day)
+                            .is_some_and(|c| c.fst.get_star_ts <= completion.fst.get_star_ts)
+                    })
+                    .count();
                 notifications.push(Notification {
                     member,
                     part2: false,
                     day: AocDay { year, day },
                     ts: completion.fst.get_star_ts,
+                    rank,
                 });
             }
 
@@ -102,11 +114,21 @@ async fn send_notifications(
                 .as_ref()
                 .filter(|_| old_completion.is_none_or(|oc| oc.snd.is_none()))
             {
+                let rank = new_leaderboard
+                    .values()
+                    .filter(|m| {
+                        m.completion_day_level
+                            .get(&day)
+                            .and_then(|c| c.snd.as_ref())
+                            .is_some_and(|c| c.get_star_ts <= part2.get_star_ts)
+                    })
+                    .count();
                 notifications.push(Notification {
                     member,
                     part2: true,
                     day: AocDay { year, day },
                     ts: part2.get_star_ts,
+                    rank,
                 });
             }
         }
@@ -130,6 +152,7 @@ struct Notification<'a> {
     part2: bool,
     day: AocDay,
     ts: DateTime<Utc>,
+    rank: usize,
 }
 
 impl Notification<'_> {
@@ -139,6 +162,7 @@ impl Notification<'_> {
             part2,
             day,
             ts,
+            rank,
         } = self;
 
         let matrix = context
@@ -159,8 +183,11 @@ impl Notification<'_> {
 
         let name = member.matrix_mention_or_display_name(matrix);
 
+        let rank = fmt_rank(rank);
+
         format!(
-            "{name} has solved part {part} of [**Advent of Code {year} Day {day}**]({url}) at {ts}"
+            "{name} has solved part {part} of [**Advent of Code {year} Day {day}**]({url}) at \
+             {ts} ({rank})"
         )
     }
 }
