@@ -52,11 +52,7 @@ async fn trigger(
 
     trace!(year, "checking for new puzzle solves");
 
-    let new_leaderboard = context
-        .aoc_client
-        .get_private_leaderboard(*year, false)
-        .await?
-        .0;
+    let new_leaderboard = context.aoc_client.get_private_leaderboard(*year).await?.0;
 
     send_notifications(
         room,

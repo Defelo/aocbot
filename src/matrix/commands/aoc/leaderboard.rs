@@ -51,11 +51,7 @@ pub async fn invoke(
         None => 0,
     };
 
-    let (leaderboard, last_update) = match context
-        .aoc_client
-        .get_private_leaderboard(year, false)
-        .await
-    {
+    let (leaderboard, last_update) = match context.aoc_client.get_private_leaderboard(year).await {
         Ok(resp) => resp,
         Err(err) => match err.downcast::<reqwest::Error>() {
             Ok(err) => {

@@ -21,13 +21,14 @@ pub async fn handle(
 ) -> anyhow::Result<()> {
     let cmd = parser::parse(cmd);
 
-    match cmd.command {
+    match &*cmd.command {
         // Advent of Code
         "join" => aoc::join::invoke(event, room, &context.aoc_client).await,
         "leaderboard" | "lb" => aoc::leaderboard::invoke(event, room, &context, cmd).await,
         "day" => aoc::day::invoke(event, room, &context, cmd).await,
         "user" => aoc::user::invoke(event, room, &context, cmd).await,
         "solutions" | "repos" => aoc::solutions::invoke(event, room, &context).await,
+        "clear-cache" | "cc" => aoc::clear_cache::invoke(event, room, &context).await,
 
         // General
         "ping" => ping(event, room).await,
@@ -62,6 +63,7 @@ pub async fn help(
 - `{prefix}day [day{default_day}] [year={default_year}] [p=1|2|both] [rows={default_rows}] [offset=0]` - Show the given slice of the daily private leaderboard
 - `{prefix}user [user] [year={default_year}]` - Show statistics of the given user
 - `{prefix}solutions` - Show the list of solution repositories
+- `{prefix}clear-cache` - Clear the leaderboard cache (admin only)
 
 #### General
 - `{prefix}ping` - Check bot health

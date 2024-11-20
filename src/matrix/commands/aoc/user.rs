@@ -39,10 +39,7 @@ pub async fn invoke(
         None => most_recent_year,
     };
 
-    let (leaderboard, last_update) = context
-        .aoc_client
-        .get_private_leaderboard(year, false)
-        .await?;
+    let (leaderboard, last_update) = context.aoc_client.get_private_leaderboard(year).await?;
 
     let last_update = context
         .config

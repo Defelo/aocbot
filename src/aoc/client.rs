@@ -60,6 +60,15 @@ impl AocClient {
         &self.whoami
     }
 
+    pub async fn clear_leaderboard_cache(&self) -> anyhow::Result<()> {
+        let mut guard = self.leaderboard_cache.write().await;
+        guard.clear();
+        self.store
+            .set::<LeaderboardCache>(LEADERBOARD_CACHE_STORE_KEY, &guard)
+            .await?;
+        Ok(())
+    }
+
     pub async fn get_private_leaderboard_cached(
         &self,
         year: i32,
@@ -70,7 +79,6 @@ impl AocClient {
     pub async fn get_private_leaderboard(
         &self,
         year: i32,
-        force_refresh: bool,
     ) -> anyhow::Result<(PrivateLeaderboard, DateTime<Utc>)> {
         let now = now();
         let ttl = match AocDay::current() {
@@ -85,23 +93,19 @@ impl AocClient {
             None => self.default_cache_ttl,
         };
 
-        if !force_refresh {
-            let guard = self.leaderboard_cache.read().await;
-            if let Some(cached) = guard.get(&year).filter(|(_, ts)| now < *ts + ttl) {
-                trace!(
-                    year,
-                    ttl_secs = (cached.1 + ttl - now).num_seconds(),
-                    "leaderboard cached"
-                );
-                return Ok(cached.clone());
-            }
+        let guard = self.leaderboard_cache.read().await;
+        if let Some(cached) = guard.get(&year).filter(|(_, ts)| now < *ts + ttl) {
+            trace!(
+                year,
+                ttl_secs = (cached.1 + ttl - now).num_seconds(),
+                "leaderboard cached"
+            );
+            return Ok(cached.clone());
         }
+        drop(guard);
 
         let mut guard = self.leaderboard_cache.write().await;
-        if let Some(cached) = guard
-            .get(&year)
-            .filter(|(_, ts)| !force_refresh && now < *ts + ttl)
-        {
+        if let Some(cached) = guard.get(&year).filter(|(_, ts)| now < *ts + ttl) {
             trace!(
                 year,
                 ttl_secs = (cached.1 + ttl - now).num_seconds(),
@@ -130,7 +134,7 @@ impl AocClient {
         day: u32,
         parts: Parts,
     ) -> anyhow::Result<(PrivateLeaderboard, DateTime<Utc>)> {
-        let (mut leaderboard, last_update) = self.get_private_leaderboard(year, false).await?;
+        let (mut leaderboard, last_update) = self.get_private_leaderboard(year).await?;
 
         let mut members_by_p1 = leaderboard
             .members

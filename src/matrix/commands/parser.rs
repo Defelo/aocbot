@@ -5,7 +5,7 @@ use std::{
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ParsedCommand<'a> {
-    pub command: &'a str,
+    pub command: Cow<'a, str>,
     pub args: VecDeque<&'a str>,
     pub kwargs: HashMap<Cow<'a, str>, &'a str>,
 }
@@ -44,6 +44,11 @@ pub fn parse(cmd: &str) -> ParsedCommand {
     let start = position!();
     skip_until!(|c: char| c.is_whitespace());
     let command = &cmd[start..position!()];
+    let command = if command.chars().all(|c| c.is_lowercase()) {
+        Cow::Borrowed(command)
+    } else {
+        Cow::Owned(command.to_lowercase())
+    };
 
     let mut args = VecDeque::new();
     let mut kwargs = HashMap::new();
@@ -103,7 +108,7 @@ mod tests {
         ($inp:expr, $command:expr, $args:expr, $kwargs:expr) => {{
             let input = $inp;
             let expected = ParsedCommand {
-                command: $command,
+                command: $command.into(),
                 args: $args.into(),
                 kwargs: $kwargs
                     .into_iter()
@@ -116,9 +121,9 @@ mod tests {
 
     #[test]
     fn no_args() {
-        test!("test", "test", [], []);
-        test!(" test", "test", [], []);
-        test!("test ", "test", [], []);
+        test!("Test", "test", [], []);
+        test!(" Test", "test", [], []);
+        test!("Test ", "test", [], []);
     }
 
     #[test]

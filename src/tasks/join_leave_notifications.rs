@@ -42,11 +42,7 @@ async fn trigger(
 
     trace!("checking for member leave/join events");
 
-    let new_leaderboard = context
-        .aoc_client
-        .get_private_leaderboard(year, false)
-        .await?
-        .0;
+    let new_leaderboard = context.aoc_client.get_private_leaderboard(year).await?.0;
 
     send_notifications(
         room,

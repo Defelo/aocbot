@@ -11,7 +11,7 @@ pub async fn invoke(
     aoc_client: &AocClient,
 ) -> anyhow::Result<()> {
     let members = aoc_client
-        .get_private_leaderboard(AocDay::most_recent().year, false)
+        .get_private_leaderboard(AocDay::most_recent().year)
         .await?
         .0
         .members
