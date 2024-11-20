@@ -7,13 +7,16 @@ use matrix_sdk::{
 };
 
 use crate::{
-    aoc::{day::AocDay, models::PrivateLeaderboardMember},
+    aoc::{client::Parts, day::AocDay, models::PrivateLeaderboardMember},
     context::Context,
     matrix::{
         commands::{parser::ParsedCommand, send_error},
         utils::{error_message, html_message, RoomExt},
     },
-    utils::{datetime::DateTimeExt, fmt::format_rank},
+    utils::{
+        datetime::DateTimeExt,
+        fmt::{fmt_timedelta, format_rank},
+    },
 };
 
 pub async fn invoke(
@@ -22,6 +25,16 @@ pub async fn invoke(
     context: &Context,
     mut cmd: ParsedCommand<'_>,
 ) -> anyhow::Result<()> {
+    let day = match cmd
+        .get_from_kwargs_or_args("day")
+        .map(|d| d.parse().ok().filter(|d| (1..=25).contains(d)))
+        .or_else(|| AocDay::current().map(|d| Some(d.day)))
+    {
+        Some(Some(d)) => d,
+        Some(None) => return send_error(&room, event, "Failed to parse argument 'day'").await,
+        None => return send_error(&room, event, "Argument 'day' is required").await,
+    };
+
     let most_recent_year = AocDay::most_recent().year;
     let year = match cmd.get_from_kwargs_or_args("year").map(|y| {
         y.parse()
@@ -31,6 +44,13 @@ pub async fn invoke(
         Some(Some(y)) => y,
         Some(None) => return send_error(&room, event, "Failed to parse argument 'year'").await,
         None => most_recent_year,
+    };
+
+    let parts = match cmd.get_from_kwargs_or_args("p") {
+        Some("1") => Parts::P1,
+        Some("2") => Parts::P2,
+        Some("both") | None => Parts::Both,
+        Some(_) => return send_error(&room, event, "Failed to parse argument 'p'").await,
     };
 
     let rows = match cmd
@@ -53,7 +73,7 @@ pub async fn invoke(
 
     let (leaderboard, last_update) = match context
         .aoc_client
-        .get_private_leaderboard(year, false)
+        .get_daily_private_leaderboard(year, day, parts)
         .await
     {
         Ok(resp) => resp,
@@ -84,13 +104,20 @@ pub async fn invoke(
     let mut members = leaderboard.members.into_values().collect::<Vec<_>>();
     members.sort_unstable();
 
+    let parts_title = match parts {
+        Parts::P1 => "/1",
+        Parts::P2 => "/2",
+        Parts::Both => "",
+    };
     let mut leaderboard = format!(
         r#"
-<h3>Private Leaderboard (Advent of Code {year})</h3>
+<h3>Private Leaderboard (Advent of Code {year}/{day:02}{parts_title})</h3>
 <table>
-<tr> <th>Rank</th> <th>Local Score</th> <th>Global Score</th> <th>Stars</th> <th>AoC Name</th> <th>Matrix User</th> <th>Repository</th> </tr>
+<tr> <th>Rank</th> <th>Local Score</th> <th>Stars</th> <th>Completion</th> <th>AoC Name</th> <th>Matrix User</th> <th>Repository</th> </tr>
 "#
     );
+
+    let unlock = AocDay { year, day }.unlock_datetime();
 
     let mut last_score = u32::MAX;
     let mut rank = 0;
@@ -104,14 +131,12 @@ pub async fn invoke(
             }
             (rank, member)
         })
+        .filter(|(_, m)| m.stars > 0)
         .skip(offset)
         .take(rows)
     {
         let PrivateLeaderboardMember {
-            local_score,
-            global_score,
-            stars,
-            ..
+            local_score, stars, ..
         } = member;
 
         let name = member.display_name();
@@ -146,14 +171,33 @@ pub async fn invoke(
 
         let rank = format_rank(rank);
 
+        let completion = context
+            .config
+            .local_timezone
+            .from_utc_datetime(&member.last_star_ts.naive_utc())
+            .format_ymd_hms();
+
+        let start = match parts {
+            Parts::P1 | Parts::Both => unlock,
+            Parts::P2 => {
+                member
+                    .completion_day_level
+                    .get(&day)
+                    .unwrap()
+                    .fst
+                    .get_star_ts
+            }
+        };
+        let delta = fmt_timedelta(member.last_star_ts - start);
+
         write!(
             &mut leaderboard,
             r#"
 <tr>
     <td>{m}{rank}{m_}</td>
     <td>{m}{local_score}{m_}</td>
-    <td>{m}{global_score}{m_}</td>
     <td>{m}{stars}{m_}</td>
+    <td>{completion}({m}{delta}{m_})</td>
     <td>{m}{name}{m_}</td>
     <td>{matrix_name}</td>
     <td>{m}<a href="{repo}">{repo_title}</a>{m_}</td>

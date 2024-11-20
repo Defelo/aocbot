@@ -4,7 +4,7 @@ use chrono::{DateTime, Utc};
 use matrix_sdk::ruma::UserId;
 use serde::{Deserialize, Serialize};
 
-use crate::utils;
+use crate::utils::{self, serde::via_string::ViaString};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AocWhoami {
@@ -12,18 +12,19 @@ pub struct AocWhoami {
     pub invite_code: String,
 }
 
-pub type PrivateLeaderboardMembers = HashMap<String, PrivateLeaderboardMember>;
+pub type PrivateLeaderboardMembers = HashMap<ViaString<AocId>, PrivateLeaderboardMember>;
+pub type AocId = u64;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PrivateLeaderboard {
     pub event: String,
-    pub owner_id: u64,
+    pub owner_id: AocId,
     pub members: PrivateLeaderboardMembers,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PrivateLeaderboardMember {
-    pub id: u64,
+    pub id: AocId,
     pub name: Option<String>,
     pub global_score: u32,
     pub local_score: u32,

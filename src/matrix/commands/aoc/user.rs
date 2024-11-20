@@ -1,49 +1,43 @@
-use std::{fmt::Write, sync::LazyLock};
+use std::fmt::Write;
 
-use chrono::{DateTime, TimeDelta, TimeZone, Utc};
+use chrono::{DateTime, TimeZone, Utc};
 use matrix_sdk::{
-    ruma::{
-        events::room::message::{MessageType, OriginalRoomMessageEvent},
-        OwnedUserId,
-    },
+    ruma::{events::room::message::OriginalRoomMessageEvent, OwnedUserId},
     Room,
 };
-use regex::Regex;
 
 use crate::{
     aoc::day::AocDay,
     context::Context,
-    matrix::utils::{error_message, html_message, RoomExt},
-    utils::{datetime::DateTimeExt, fmt::format_rank},
+    matrix::{
+        commands::{parser::ParsedCommand, send_error},
+        utils::{error_message, html_message, RoomExt},
+    },
+    utils::{
+        datetime::DateTimeExt,
+        fmt::{fmt_timedelta, format_rank},
+    },
 };
 
 pub async fn invoke(
     event: &OriginalRoomMessageEvent,
     room: Room,
     context: &Context,
+    mut cmd: ParsedCommand<'_>,
 ) -> anyhow::Result<()> {
     let most_recent = AocDay::most_recent();
 
-    static CMD_REGEX: LazyLock<Regex> =
-        LazyLock::new(|| Regex::new(r"^\S+\s+(?<both>(?<user>.+?)(\s+(?<year>\d{4}))?)$").unwrap());
-    let MessageType::Text(cmd) = &event.content.msgtype else {
-        unreachable!()
+    let user = cmd.get_from_kwargs_or_args("user");
+    let most_recent_year = AocDay::most_recent().year;
+    let year = match cmd.get_from_kwargs_or_args("year").map(|y| {
+        y.parse()
+            .ok()
+            .filter(|y| (2015..=most_recent_year).contains(y))
+    }) {
+        Some(Some(y)) => y,
+        Some(None) => return send_error(&room, event, "Failed to parse argument 'year'").await,
+        None => most_recent_year,
     };
-    let cmd = cmd
-        .body
-        .strip_prefix(&context.config.matrix.command_prefix)
-        .unwrap();
-    let cap = CMD_REGEX.captures(cmd);
-
-    let year = cap
-        .as_ref()
-        .and_then(|cap| cap.name("year"))
-        .map(|y| y.as_str().parse::<i32>().unwrap())
-        .filter(|y| (2015..=most_recent.year).contains(y));
-
-    let user_group = if year.is_some() { "user" } else { "both" };
-    let user = cap.and_then(|cap| cap.name(user_group)).map(|m| m.as_str());
-    let year = year.unwrap_or(most_recent.year);
 
     let (leaderboard, last_update) = context
         .aoc_client
@@ -191,17 +185,17 @@ pub async fn invoke(
                 &mut out,
                 "<tr><td>{d}</td><td>{} (<b>{}</b>)</td><td></td></tr>",
                 fmt_dt(p1),
-                fmt_duration(p1 - unlock)
+                fmt_timedelta(p1 - unlock)
             ),
             (Some(p1), Some(p2)) => write!(
                 &mut out,
                 "<tr><td>{d}</td><td>{} (<b>{}</b>)</td><td>{} (+<b>{}</b> &rArr; \
                  <b>{}</b>)</td></tr>",
                 fmt_dt(p1),
-                fmt_duration(p1 - unlock),
+                fmt_timedelta(p1 - unlock),
                 fmt_dt(p2),
-                fmt_duration(p2 - p1),
-                fmt_duration(p2 - unlock)
+                fmt_timedelta(p2 - p1),
+                fmt_timedelta(p2 - unlock)
             ),
         }
         .unwrap();
@@ -212,20 +206,4 @@ pub async fn invoke(
     room.reply_to(event, html_message(out)).await?;
 
     Ok(())
-}
-
-fn fmt_duration(td: TimeDelta) -> String {
-    let s = td.num_seconds() % 60;
-    let m = td.num_minutes() % 60;
-    let h = td.num_hours() % 24;
-    let d = td.num_days();
-    if td.num_days() >= 1 {
-        format!("{d}d {m}m {s}s")
-    } else if td.num_hours() >= 1 {
-        format!("{h}h {m}m {s}s")
-    } else if td.num_minutes() >= 1 {
-        format!("{m}m {s}s")
-    } else {
-        format!("{s}s")
-    }
 }

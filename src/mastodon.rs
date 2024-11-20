@@ -74,4 +74,4 @@ pub enum AttachmentType {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize)]
-pub struct Id(#[serde(deserialize_with = "utils::serde::deserialize_from_string")] pub u64);
+pub struct Id(#[serde(with = "utils::serde::via_string")] pub u64);

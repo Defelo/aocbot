@@ -123,4 +123,80 @@ impl AocClient {
             .await?;
         Ok(entry)
     }
+
+    pub async fn get_daily_private_leaderboard(
+        &self,
+        year: i32,
+        day: u32,
+        parts: Parts,
+    ) -> anyhow::Result<(PrivateLeaderboard, DateTime<Utc>)> {
+        let (mut leaderboard, last_update) = self.get_private_leaderboard(year, false).await?;
+
+        let mut members_by_p1 = leaderboard
+            .members
+            .iter()
+            .filter_map(|(&id, m)| {
+                m.completion_day_level
+                    .get(&day)
+                    .map(|c| (id, m, c.fst.get_star_ts))
+            })
+            .collect::<Vec<_>>();
+        members_by_p1.sort_unstable_by_key(|&(_, m, ts)| (ts, m));
+        let member_ids_and_completion_ts_by_p1 = members_by_p1
+            .into_iter()
+            .map(|(id, _, c)| (id, c))
+            .collect::<Vec<_>>();
+
+        let mut members_by_p2 = leaderboard
+            .members
+            .iter()
+            .filter_map(|(&id, m)| {
+                m.completion_day_level
+                    .get(&day)
+                    .and_then(|c| c.snd.as_ref())
+                    .map(|c| (id, m, c.get_star_ts))
+            })
+            .collect::<Vec<_>>();
+        members_by_p2.sort_unstable_by_key(|&(_, m, ts)| (ts, m));
+        let member_ids_and_completion_ts_by_p2 = members_by_p2
+            .into_iter()
+            .map(|(id, _, c)| (id, c))
+            .collect::<Vec<_>>();
+
+        for m in leaderboard.members.values_mut() {
+            m.global_score = 0;
+            m.local_score = 0;
+            m.stars = 0;
+            m.last_star_ts = Default::default();
+        }
+
+        if matches!(parts, Parts::P1 | Parts::Both) {
+            for (i, (id, ts)) in member_ids_and_completion_ts_by_p1.into_iter().enumerate() {
+                let score = leaderboard.members.len() - i;
+                let member = leaderboard.members.get_mut(&id).unwrap();
+                member.local_score += score as u32;
+                member.stars += 1;
+                member.last_star_ts = member.last_star_ts.max(ts);
+            }
+        }
+
+        if matches!(parts, Parts::P2 | Parts::Both) {
+            for (i, (id, ts)) in member_ids_and_completion_ts_by_p2.into_iter().enumerate() {
+                let score = leaderboard.members.len() - i;
+                let member = leaderboard.members.get_mut(&id).unwrap();
+                member.local_score += score as u32;
+                member.stars += 1;
+                member.last_star_ts = member.last_star_ts.max(ts);
+            }
+        }
+
+        Ok((leaderboard, last_update))
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Parts {
+    P1,
+    P2,
+    Both,
 }

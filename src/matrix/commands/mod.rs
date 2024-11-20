@@ -11,19 +11,22 @@ use crate::{
 
 pub mod admin;
 pub mod aoc;
+mod parser;
 
 pub async fn handle(
     event: &OriginalRoomMessageEvent,
     room: Room,
     context: Arc<Context>,
     cmd: &str,
-    args: impl Iterator<Item = &str>,
 ) -> anyhow::Result<()> {
-    match cmd {
+    let cmd = parser::parse(cmd);
+
+    match cmd.command {
         // Advent of Code
         "join" => aoc::join::invoke(event, room, &context.aoc_client).await,
-        "leaderboard" | "lb" => aoc::leaderboard::invoke(event, room, &context, args).await,
-        "user" => aoc::user::invoke(event, room, &context).await,
+        "leaderboard" | "lb" => aoc::leaderboard::invoke(event, room, &context, cmd).await,
+        "day" => aoc::day::invoke(event, room, &context, cmd).await,
+        "user" => aoc::user::invoke(event, room, &context, cmd).await,
         "solutions" | "repos" => aoc::solutions::invoke(event, room, &context).await,
 
         // General
@@ -31,7 +34,7 @@ pub async fn handle(
         "help" => help(event, room, &context.config).await,
 
         // Administration
-        "op" => admin::op(event, room, &context.config, args).await,
+        "op" => admin::op(event, room, &context.config, cmd).await,
 
         _ => unknown_command(event, room).await,
     }
@@ -44,6 +47,9 @@ pub async fn help(
 ) -> anyhow::Result<()> {
     let prefix = &config.matrix.command_prefix;
 
+    let default_day = AocDay::current()
+        .map(|d| format!("={}", d.day))
+        .unwrap_or_default();
     let default_year = AocDay::most_recent().year;
     let default_rows = config.aoc.leaderboard_rows;
     let content = format!(
@@ -52,7 +58,8 @@ pub async fn help(
 
 #### Advent of Code
 - `{prefix}join` - Request instructions to join the private leaderboard
-- `{prefix}leaderboard [--refresh] [year={default_year}] [rows={default_rows}] [offset=0]` - Show the given slice of the private leaderboard
+- `{prefix}leaderboard [year={default_year}] [rows={default_rows}] [offset=0]` - Show the given slice of the private leaderboard
+- `{prefix}day [day{default_day}] [year={default_year}] [p=1|2|both] [rows={default_rows}] [offset=0]` - Show the given slice of the daily private leaderboard
 - `{prefix}user [user] [year={default_year}]` - Show statistics of the given user
 - `{prefix}solutions` - Show the list of solution repositories
 
@@ -77,5 +84,14 @@ async fn unknown_command(event: &OriginalRoomMessageEvent, room: Room) -> anyhow
 
 pub async fn ping(event: &OriginalRoomMessageEvent, room: Room) -> anyhow::Result<()> {
     room.reply_to(event, message("Pong!")).await?;
+    Ok(())
+}
+
+async fn send_error(
+    room: &Room,
+    event: &OriginalRoomMessageEvent,
+    error: impl AsRef<str>,
+) -> anyhow::Result<()> {
+    room.reply_to(event, error_message(error)).await?;
     Ok(())
 }

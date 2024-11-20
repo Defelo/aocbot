@@ -12,7 +12,7 @@ users = [
   { aoc = 1244156, repo = "https://github.com/Tristan-H11/AdventOfCode21" },
   { aoc = 2337460, repo = "https://github.com/tanypteryx/AdventOfCode" },
   { aoc = 1055972, repo = "https://github.com/DerDomee/adventofcode-typescript" },
-  { aoc = 999860, repo = "https://github.com/Shrumpf/advent-of-code" },
+  { aoc = 999860, matrix = "@shrumpf:matrix.org", repo = "https://github.com/Shrumpf/advent-of-code" },
   { aoc = 1090750, repo = "https://gitlab.com/AtticusSullivan/adventofcode" },
   { aoc = 1046310, repo = "https://github.com/TheMorpheus407/AdventOfCode2020" },
   { aoc = 1069020, repo = "https://github.com/itsCryne/aoc2021" },

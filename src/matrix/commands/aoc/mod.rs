@@ -1,3 +1,4 @@
+pub mod day;
 pub mod join;
 pub mod leaderboard;
 pub mod solutions;

@@ -53,17 +53,12 @@ pub async fn handle(
         return Ok(());
     }
 
-    let Some(command) = content
+    let Some(cmd) = content
         .body
         .strip_prefix(&context.config.matrix.command_prefix)
     else {
         return Ok(());
     };
 
-    let mut parts = command.split_whitespace();
-    let Some(cmd) = parts.next() else {
-        return Ok(());
-    };
-
-    commands::handle(&event, room, context.0, cmd, parts).await
+    commands::handle(&event, room, context.0, cmd).await
 }

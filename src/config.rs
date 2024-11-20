@@ -6,7 +6,10 @@ use matrix_sdk::ruma::{OwnedRoomId, OwnedUserId};
 use regex::Regex;
 use serde::{Deserialize, Deserializer};
 
-use crate::utils::{self, regex_set_replacer::RegexSetReplacer};
+use crate::{
+    aoc::models::AocId,
+    utils::{self, regex_set_replacer::RegexSetReplacer},
+};
 
 pub fn load<'a>(config_path: impl Iterator<Item = &'a str>) -> anyhow::Result<Config> {
     config_path
@@ -24,7 +27,7 @@ pub fn load<'a>(config_path: impl Iterator<Item = &'a str>) -> anyhow::Result<Co
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
-    #[serde(deserialize_with = "utils::serde::deserialize_from_string")]
+    #[serde(with = "utils::serde::via_string")]
     pub local_timezone: FixedOffset,
     pub matrix: MatrixConfig,
     pub aoc: AocConfig,
@@ -65,7 +68,7 @@ pub struct GarygradyConfig {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct User {
-    pub aoc: Option<u64>,
+    pub aoc: Option<AocId>,
     pub matrix: Option<OwnedUserId>,
     pub repo: Option<String>,
 }

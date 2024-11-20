@@ -1,5 +1,7 @@
 use std::fmt::{Display, Formatter};
 
+use chrono::TimeDelta;
+
 pub fn format_rank(rank: usize) -> impl Display {
     DisplayWith(move |f| {
         let medal = match rank {
@@ -16,6 +18,24 @@ pub fn format_rank(rank: usize) -> impl Display {
             _ => "th",
         };
         write!(f, "{medal}{rank}{suffix}")
+    })
+}
+
+pub fn fmt_timedelta(td: TimeDelta) -> impl Display {
+    DisplayWith(move |f| {
+        let s = td.num_seconds() % 60;
+        let m = td.num_minutes() % 60;
+        let h = td.num_hours() % 24;
+        let d = td.num_days();
+        if td.num_days() >= 1 {
+            write!(f, "{d}d {m}m {s}s")
+        } else if td.num_hours() >= 1 {
+            write!(f, "{h}h {m}m {s}s")
+        } else if td.num_minutes() >= 1 {
+            write!(f, "{m}m {s}s")
+        } else {
+            write!(f, "{s}s")
+        }
     })
 }
 
