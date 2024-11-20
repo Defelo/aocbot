@@ -2,7 +2,7 @@ name: Nix
 
 on:
   push:
-    branches: [develop]
+    branches: [develop, staging, trying]
   pull_request:
 
 permissions:
