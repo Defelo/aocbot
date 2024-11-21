@@ -2964,9 +2964,9 @@ rec {
       };
       "hyper" = rec {
         crateName = "hyper";
-        version = "1.5.0";
+        version = "1.5.1";
         edition = "2021";
-        sha256 = "16pspkgizcnsr1qcpqvm5l45nfwk7244q9av56cqqwm40slg1gxv";
+        sha256 = "07s87id0566m2p5dc5q6nqmxz5r8drqd81b7w4q44djgxwkqi0cp";
         authors = [
           "Sean McArthur <sean@seanmonstar.com>"
         ];
@@ -3046,7 +3046,7 @@ rec {
         ];
         features = {
           "client" = [ "dep:want" "dep:pin-project-lite" "dep:smallvec" ];
-          "ffi" = [ "dep:libc" "dep:http-body-util" "futures-util?/alloc" ];
+          "ffi" = [ "dep:http-body-util" "futures-util?/alloc" ];
           "full" = [ "client" "http1" "http2" "server" ];
           "http1" = [ "dep:futures-channel" "dep:futures-util" "dep:httparse" "dep:itoa" ];
           "http2" = [ "dep:futures-channel" "dep:futures-util" "dep:h2" ];
@@ -4109,9 +4109,9 @@ rec {
       };
       "itoa" = rec {
         crateName = "itoa";
-        version = "1.0.11";
+        version = "1.0.13";
         edition = "2018";
-        sha256 = "0nv9cqjwzr3q58qz84dcz63ggc54yhf1yqar1m858m1kfd4g3wa9";
+        sha256 = "1wjf22cawbrf26zjnflhg9aqjpf9gccgyc6djaj70i1zgblm81jl";
         authors = [
           "David Tolnay <dtolnay@gmail.com>"
         ];
@@ -4191,9 +4191,9 @@ rec {
       };
       "konst" = rec {
         crateName = "konst";
-        version = "0.3.9";
+        version = "0.3.11";
         edition = "2021";
-        sha256 = "1fg3vdkf9m8wdk7njcndcv3hbxlz2hng48przxx3kbzpwmnvm82h";
+        sha256 = "122xk8jxffyld4s68hbnxv6ssz388hsrrm3vvs554gic9psglr09";
         authors = [
           "rodrimati1992 <rodrimatt1985@gmail.com>"
         ];
@@ -4227,15 +4227,16 @@ rec {
           "mut_refs" = [ "rust_latest_stable" "konst_kernel/mut_refs" ];
           "nightly_mut_refs" = [ "mut_refs" "konst_kernel/nightly_mut_refs" ];
           "parsing_proc" = [ "parsing" "konst_proc_macros" ];
+          "rust_1_83" = [ "mut_refs" ];
           "trybuild" = [ "dep:trybuild" ];
         };
         resolvedDefaultFeatures = [ "cmp" "iter" "parsing" ];
       };
       "konst_kernel" = rec {
         crateName = "konst_kernel";
-        version = "0.3.9";
+        version = "0.3.10";
         edition = "2021";
-        sha256 = "0ayv7r84zh2wg99j97ka9gqmpa393j70hmppmpb0y8hr2xd4a2my";
+        sha256 = "15zxzj9x72zbpn8a3pwfm0bgz9d2qsm77s0pq0ydih0zbir6483j";
         authors = [
           "rodrimati1992 <rodrimatt1985@gmail.com>"
         ];
@@ -8816,9 +8817,9 @@ rec {
       };
       "sync_wrapper" = rec {
         crateName = "sync_wrapper";
-        version = "1.0.1";
-        edition = "2018";
-        sha256 = "150k6lwvr4nl237ngsz8fj5j78k712m4bggrfyjsidllraz5l1m7";
+        version = "1.0.2";
+        edition = "2021";
+        sha256 = "0qvjyasd6w18mjg5xlaq5jgy84jsjfsvmnn12c13gypxbv75dwhb";
         authors = [
           "Actyx AG <developer@actyx.io>"
         ];
@@ -9944,9 +9945,9 @@ rec {
       };
       "unicode-ident" = rec {
         crateName = "unicode-ident";
-        version = "1.0.13";
+        version = "1.0.14";
         edition = "2018";
-        sha256 = "1zm1xylzsdfvm2a5ib9li3g5pp7qnkv4amhspydvgbmd9k6mc6z9";
+        sha256 = "10ywa1pg0glgkr4l3dppjxizr9r2b7im0ycbfa0137l69z5fdfdd";
         libName = "unicode_ident";
         authors = [
           "David Tolnay <dtolnay@gmail.com>"
