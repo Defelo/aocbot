@@ -836,9 +836,9 @@ rec {
       };
       "blake3" = rec {
         crateName = "blake3";
-        version = "1.5.4";
+        version = "1.5.5";
         edition = "2021";
-        sha256 = "1xy6gp8yfcpvzwrhbx5iksxxwf6hsix403klizgr1s6qgwj3686q";
+        sha256 = "07k07q7f2m0hr6z944gf0wn1s15f3gwsydhpz2ssbpn44hc0rvmq";
         authors = [
           "Jack O'Connor <oconnor663@gmail.com>"
           "Samuel Neves"
@@ -860,6 +860,7 @@ rec {
           {
             name = "constant_time_eq";
             packageId = "constant_time_eq";
+            usesDefaultFeatures = false;
           }
         ];
         buildDependencies = [
@@ -870,6 +871,7 @@ rec {
         ];
         features = {
           "default" = [ "std" ];
+          "digest" = [ "dep:digest" ];
           "mmap" = [ "std" "dep:memmap2" ];
           "rayon" = [ "dep:rayon-core" "std" ];
           "serde" = [ "dep:serde" ];
@@ -4109,9 +4111,9 @@ rec {
       };
       "itoa" = rec {
         crateName = "itoa";
-        version = "1.0.13";
+        version = "1.0.14";
         edition = "2018";
-        sha256 = "1wjf22cawbrf26zjnflhg9aqjpf9gccgyc6djaj70i1zgblm81jl";
+        sha256 = "0x26kr9m062mafaxgcf2p6h2x7cmixm0zw95aipzn2hr3d5jlnnp";
         authors = [
           "David Tolnay <dtolnay@gmail.com>"
         ];
@@ -4267,9 +4269,9 @@ rec {
       };
       "libc" = rec {
         crateName = "libc";
-        version = "0.2.164";
+        version = "0.2.166";
         edition = "2015";
-        sha256 = "0gy1yzvc6x760r9zfkhl1f7p91zz559nxspvwfrajpf7p03gwfs3";
+        sha256 = "0dnyxi6n3h72cq79grmvc2vcmh13v1y4x1k1s0dk7cf0pc4c3k62";
         authors = [
           "The Rust Project Developers"
         ];
@@ -5927,9 +5929,9 @@ rec {
       };
       "pathdiff" = rec {
         crateName = "pathdiff";
-        version = "0.2.2";
+        version = "0.2.3";
         edition = "2018";
-        sha256 = "0qg33zcjlb90mfjyxnbxzcnr8gk1zkkw8x60s24vdd9s2phmq76n";
+        sha256 = "1lrqp4ip05df8dzldq6gb2c1sq2gs54gly8lcnv3rhav1qhwx56z";
         authors = [
           "Manish Goregaokar <manishsmail@gmail.com>"
         ];
@@ -8126,9 +8128,9 @@ rec {
       };
       "rustls" = rec {
         crateName = "rustls";
-        version = "0.23.18";
+        version = "0.23.19";
         edition = "2021";
-        sha256 = "0zxbcq0qy3kmp0m42mmf930h5bhr3hh3ivamrrd6ag94gvac374w";
+        sha256 = "1lgqjf1vh09kghyj34a4svn1max18pmhka6bwbxb61mv61240jwk";
         dependencies = [
           {
             name = "once_cell";
@@ -9860,9 +9862,9 @@ rec {
       };
       "typewit" = rec {
         crateName = "typewit";
-        version = "1.9.0";
+        version = "1.10.1";
         edition = "2021";
-        sha256 = "093fgb1q5n48vr4nj3hggbhfi6jzab5048scs6jz1ynalgk9myy6";
+        sha256 = "135cmf9f0lhqi8xbf4rv900f10hrf629yxm9w92hyx1gh4jvs7fm";
         authors = [
           "rodrimati1992 <rodrimatt1985@gmail.com>"
         ];
@@ -9874,6 +9876,7 @@ rec {
           }
         ];
         features = {
+          "__ui_tests" = [ "trybuild" ];
           "adt_const_marker" = [ "rust_stable" ];
           "default" = [ "proc_macros" ];
           "mut_refs" = [ "rust_stable" ];
@@ -9881,6 +9884,7 @@ rec {
           "proc_macros" = [ "typewit_proc_macros" ];
           "rust_1_65" = [ "rust_1_61" ];
           "rust_stable" = [ "rust_1_65" ];
+          "trybuild" = [ "dep:trybuild" ];
           "typewit_proc_macros" = [ "dep:typewit_proc_macros" ];
         };
         resolvedDefaultFeatures = [ "default" "proc_macros" "rust_1_61" "typewit_proc_macros" ];
