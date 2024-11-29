@@ -16,7 +16,7 @@ users = [
   { aoc = 1090750, repo = "https://gitlab.com/AtticusSullivan/adventofcode" },
   { aoc = 1046310, repo = "https://github.com/TheMorpheus407/AdventOfCode2020" },
   { aoc = 1069020, repo = "https://github.com/itsCryne/aoc2021" },
-  { aoc = 3408681, repo = "https://github.com/MarcelCoding/aoc-2023" },
+  { aoc = 3408681, matrix = "@marcel:envs.net", repo = "https://codeberg.org/m4rc3l/aoc-2024" },
   { aoc = 1061494, repo = "https://github.com/Marc55s/AdventOfCode2021" },
   { aoc = 1188170, repo = "https://github.com/Keksnet/advent-of-code-21" },
   { aoc = 996295, repo = "https://github.com/Ari24-cb24/adventofcodeanswers" },
