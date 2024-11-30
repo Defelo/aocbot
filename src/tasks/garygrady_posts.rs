@@ -134,6 +134,9 @@ async fn trigger(context: &Context, last_id: &mut mastodon::Id) -> anyhow::Resul
 }
 
 fn remove_html_tags(html: &str) -> String {
-    static REGEX: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#"<.*?>"#).unwrap());
-    REGEX.replace_all(html, "").into()
+    static TAG_REGEX: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#"<.*?>"#).unwrap());
+    static BR_REGEX: LazyLock<Regex> = LazyLock::new(|| Regex::new(r#"<br */?>"#).unwrap());
+    TAG_REGEX
+        .replace_all(&BR_REGEX.replace_all(html, " "), "")
+        .into()
 }
