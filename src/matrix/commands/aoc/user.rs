@@ -119,6 +119,7 @@ pub async fn invoke(
     let max_stars = days * 2;
     let progress_percent = stars as f64 / max_stars as f64 * 100.0;
 
+    let link_prefix = &context.config.matrix.link_prefix;
     let mut out = format!(
         r#"
 <table>
@@ -133,7 +134,7 @@ pub async fn invoke(
         <td>{aoc_id}</td>
         <td>{name}</td>
         <td>{matrix}</td>
-        <td><a href="{repo}">{repo_title}</a></td>
+        <td><a href="{link_prefix}{repo}">{repo_title}</a></td>
     </tr>
 
     <tr>

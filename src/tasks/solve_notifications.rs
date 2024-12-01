@@ -199,9 +199,10 @@ impl Notification<'_> {
         };
         let delta = fmt_timedelta(member.last_star_ts - start);
 
+        let link_prefix = &context.config.matrix.link_prefix;
         format!(
-            "{name} has solved <b>{part}</b> of <a href=\"{url}\"><b>AoC {year} Day {day}</b></a> \
-             at {ts} ({rank}, {delta})"
+            "{name} has solved <b>{part}</b> of <a href=\"{link_prefix}{url}\"><b>AoC {year} Day \
+             {day}</b></a> at {ts} ({rank}, {delta})"
         )
     }
 }

@@ -52,6 +52,7 @@ pub struct MatrixConfig {
     pub admin_ids: Vec<OwnedUserId>,
     pub room_id: OwnedRoomId,
     pub command_prefix: String,
+    pub link_prefix: String,
 }
 
 #[derive(Debug, Deserialize)]

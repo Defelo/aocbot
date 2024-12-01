@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use matrix_sdk::{Room, RoomState};
+use matrix_sdk::RoomState;
 use tracing::{error, info, warn};
 
 use crate::{
@@ -14,13 +14,14 @@ pub async fn start(context: Arc<Context>) -> ! {
         info!(?next, ?datetime, "waiting until next unlock");
         sleep_until(datetime).await;
         info!(?next, ?datetime, "new puzzles unlocked");
-        if let Err(err) = trigger(&context.room, next).await {
+        if let Err(err) = trigger(&context, next).await {
             error!("Failed to send unlock announcement: {err}");
         }
     }
 }
 
-async fn trigger(room: &Room, day: AocDay) -> anyhow::Result<()> {
+async fn trigger(context: &Context, day: AocDay) -> anyhow::Result<()> {
+    let room = &context.room;
     if room.state() != RoomState::Joined {
         warn!("not a member of target room {}", room.room_id());
         room.join().await?;
@@ -28,9 +29,10 @@ async fn trigger(room: &Room, day: AocDay) -> anyhow::Result<()> {
 
     let url = day.url();
     let AocDay { year, day } = day;
+    let link_prefix = &context.config.matrix.link_prefix;
     room.send(message(format!(
-        "✨ The puzzles of **Advent of Code {year} Day {day}** can now be solved at {url} ✨ <!-- \
-         🎉 -->",
+        "✨ The puzzles of **Advent of Code {year} Day {day}** can now be solved at \
+         [{url}]({link_prefix}{url}) ✨ <!-- 🎉 -->",
     )))
     .await?;
     Ok(())

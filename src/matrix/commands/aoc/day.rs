@@ -190,6 +190,7 @@ pub async fn invoke(
         };
         let delta = fmt_timedelta(member.last_star_ts - start);
 
+        let link_prefix = &context.config.matrix.link_prefix;
         write!(
             &mut leaderboard,
             r#"
@@ -200,7 +201,7 @@ pub async fn invoke(
     <td>{completion}({m}{delta}{m_})</td>
     <td>{m}{name}{m_}</td>
     <td>{matrix_name}</td>
-    <td>{m}<a href="{repo}">{repo_title}</a>{m_}</td>
+    <td>{m}<a href="{link_prefix}{repo}">{repo_title}</a>{m_}</td>
 </tr>
 "#
         )

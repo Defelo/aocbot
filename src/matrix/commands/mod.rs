@@ -23,7 +23,7 @@ pub async fn handle(
 
     match &*cmd.command {
         // Advent of Code
-        "join" => aoc::join::invoke(event, room, &context.aoc_client).await,
+        "join" => aoc::join::invoke(event, room, &context).await,
         "leaderboard" | "lb" => aoc::leaderboard::invoke(event, room, &context, cmd).await,
         "day" => aoc::day::invoke(event, room, &context, cmd).await,
         "user" => aoc::user::invoke(event, room, &context, cmd).await,

@@ -104,8 +104,9 @@ async fn trigger(context: &Context, last_id: &mut mastodon::Id) -> anyhow::Resul
                     .upload(&mime, image.to_vec(), None)
                     .await?;
 
+                let link_prefix = &context.config.matrix.link_prefix;
                 let caption = format!(
-                    r#"<a href="{}">{}</a> (created by <a href="{}">@{}</a>)"#,
+                    r#"<a href="{link_prefix}{}">{}</a> (created by <a href="{link_prefix}{}">@{}</a>)"#,
                     post.url,
                     remove_html_tags(&post.content),
                     post.account.url,
