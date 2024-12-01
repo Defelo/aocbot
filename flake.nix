@@ -47,6 +47,6 @@
       };
     });
 
-    checks = self.packages;
+    checks = builtins.mapAttrs (_: pkgs: pkgs // {_inputs = builtins.mapAttrs (_: drv: drv.inputDerivation) pkgs;}) self.packages;
   };
 }
