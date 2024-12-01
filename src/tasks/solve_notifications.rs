@@ -174,8 +174,19 @@ impl Notification<'_> {
             "<span data-mx-color=\"#9999cc\">part one</span>"
         };
 
+        let start = if part2 {
+            member
+                .completion_day_level
+                .get(&day.day)
+                .unwrap()
+                .fst
+                .get_star_ts
+        } else {
+            day.unlock_datetime()
+        };
+        let delta = fmt_timedelta(ts - start);
+
         let url = day.url();
-        let unlock = day.unlock_datetime();
         let AocDay { year, day } = day;
         let ts = context
             .config
@@ -186,18 +197,6 @@ impl Notification<'_> {
         let name = member.matrix_mention_or_display_name_html(matrix);
 
         let rank = fmt_rank(rank);
-
-        let start = if part2 {
-            member
-                .completion_day_level
-                .get(&day)
-                .unwrap()
-                .fst
-                .get_star_ts
-        } else {
-            unlock
-        };
-        let delta = fmt_timedelta(member.last_star_ts - start);
 
         let link_prefix = &context.config.matrix.link_prefix;
         format!(
