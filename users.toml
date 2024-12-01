@@ -2,7 +2,7 @@ users = [
   { aoc = 644309, matrix = "@defelo:matrix.defelo.de", repo = "https://github.com/Defelo/AdventOfCode" },
   { aoc = 644683, matrix = "@tnt2k:matrix.org", repo = "https://github.com/TheCataliasTNT2k/adventofcode" },
   { aoc = 1059924, matrix = "@loc:locrealloc.de", repo = "https://github.com/LoCrealloc/aoc2022" },
-  { aoc = 1040905, matrix = "@wolflu:matrix.org", repo = "https://github.com/luwol03/AdventOfCode" },
+  { aoc = 1040905, matrix = "@wolflu:matrix.org", repo = "https://github.com/wolflu05/AdventOfCode" },
   { aoc = 1506869, matrix = "@inarius:matrix.org" },
   { aoc = 1577801, matrix = "@mik:fbsweb.de" },
   { aoc = 2393329, matrix = "@felix:beichler.eu" },
