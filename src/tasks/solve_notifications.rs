@@ -9,10 +9,10 @@ use crate::{
         day::AocDay,
         models::{PrivateLeaderboard, PrivateLeaderboardMember, PrivateLeaderboardMembers},
     },
-    matrix::utils::notice,
+    matrix::utils::html_notice,
     utils::{
         datetime::{now, DateTimeExt},
-        fmt::fmt_rank,
+        fmt::{fmt_rank, fmt_timedelta},
     },
     Context,
 };
@@ -136,7 +136,8 @@ async fn send_notifications(
 
     trace!(?notifications, "sending puzzle solve notifications");
     for notification in notifications {
-        room.send(notice(notification.to_string(context))).await?;
+        room.send(html_notice(notification.to_string(context)))
+            .await?;
     }
 
     Ok(())
@@ -167,9 +168,14 @@ impl Notification<'_> {
             .get(&member.id)
             .and_then(|m| m.matrix.as_deref());
 
-        let part = if part2 { "two" } else { "one" };
+        let part = if part2 {
+            "<span data-mx-color=\"#ffff66\">part two</span>"
+        } else {
+            "<span data-mx-color=\"#9999cc\">part one</span>"
+        };
 
         let url = day.url();
+        let unlock = day.unlock_datetime();
         let AocDay { year, day } = day;
         let ts = context
             .config
@@ -181,9 +187,21 @@ impl Notification<'_> {
 
         let rank = fmt_rank(rank);
 
+        let start = if part2 {
+            member
+                .completion_day_level
+                .get(&day)
+                .unwrap()
+                .fst
+                .get_star_ts
+        } else {
+            unlock
+        };
+        let delta = fmt_timedelta(member.last_star_ts - start);
+
         format!(
-            "{name} has solved part {part} of [**Advent of Code {year} Day {day}**]({url}) at \
-             {ts} ({rank})"
+            "{name} has solved <b>{part}</b> of <a href=\"{url}\"><b>AoC {year} Day {day}</b></a> \
+             at {ts} ({rank}, {delta})"
         )
     }
 }

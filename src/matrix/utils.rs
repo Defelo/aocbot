@@ -40,6 +40,10 @@ pub fn notice(text: impl AsRef<str> + Into<String>) -> RoomMessageEventContent {
     RoomMessageEventContent::notice_markdown(text)
 }
 
+pub fn html_notice(text: impl Into<String> + Clone) -> RoomMessageEventContent {
+    RoomMessageEventContent::notice_html(text.clone(), text)
+}
+
 pub fn html_message(html: impl Into<String> + Clone) -> RoomMessageEventContent {
     RoomMessageEventContent::text_html(html.clone(), html)
 }
