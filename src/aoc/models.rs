@@ -48,6 +48,13 @@ impl PrivateLeaderboardMember {
             None => format!("**{}**", self.display_name()),
         }
     }
+
+    pub fn matrix_mention_or_display_name_html(&self, matrix: Option<&UserId>) -> String {
+        match matrix {
+            Some(matrix) => format!("{} ({})", matrix.matrix_to_uri(), self.display_name()),
+            None => format!("<b>{}</b>", self.display_name()),
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

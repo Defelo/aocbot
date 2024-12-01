@@ -183,7 +183,7 @@ impl Notification<'_> {
             .from_utc_datetime(&ts.naive_utc())
             .format_ymd_hms_z();
 
-        let name = member.matrix_mention_or_display_name(matrix);
+        let name = member.matrix_mention_or_display_name_html(matrix);
 
         let rank = fmt_rank(rank);
 
