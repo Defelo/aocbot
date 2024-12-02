@@ -30,4 +30,5 @@ users = [
   { aoc = 2356146, repo = "https://github.com/TheKogs/AdventOfCode" },
   { aoc = 1643403, repo = "https://github.com/TheBlckbird/advent_of_code" },
   { aoc = 2458351, repo = "https://github.com/Maschga/Advent-of-Code-Solutions" },
+  { aoc = 205092, matrix = "@vo-coder:matrix.org" },
 ]
