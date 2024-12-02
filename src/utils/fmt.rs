@@ -28,7 +28,7 @@ pub fn fmt_timedelta(td: TimeDelta) -> impl Display {
         let h = td.num_hours() % 24;
         let d = td.num_days();
         if td.num_days() >= 1 {
-            write!(f, "{d}d {m}m {s}s")
+            write!(f, "{d}d {h}h {m}m {s}s")
         } else if td.num_hours() >= 1 {
             write!(f, "{h}h {m}m {s}s")
         } else if td.num_minutes() >= 1 {
