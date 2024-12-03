@@ -11,7 +11,7 @@ dbg_macro = "warn"
 todo = "warn"
 
 [dependencies]
-anyhow = { version = "1.0.93", default-features = false, features = ["std"] }
+anyhow = { version = "1.0.94", default-features = false, features = ["std"] }
 chrono = { version = "0.4.38", default-features = false, features = ["clock", "serde"] }
 config = { version = "0.14.1", default-features = false, features = ["toml"] }
 matrix-sdk = { version = "0.8.0", default-features = false, features = ["rustls-tls", "bundled-sqlite", "e2e-encryption", "markdown"] }
