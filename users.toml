@@ -32,4 +32,5 @@ users = [
   { aoc = 2458351, repo = "https://github.com/Maschga/Advent-of-Code-Solutions" },
   { aoc = 205092, matrix = "@vo-coder:matrix.org" },
   { aoc = 1561991, matrix = "@lilith:matrix.firelilith.org", repo = "https://git.firelilith.org/lilith/aocrust" },
+  { aoc = 1643403, matrix = "@theblckbird:matrix.org", repo = "https://github.com/TheBlckbird/advent_of_code" },
 ]
