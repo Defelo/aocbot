@@ -6,7 +6,7 @@
   fenix,
   ...
 }: let
-  toolchain = fenix.packages.${system}.beta; # 1.83.0
+  toolchain = fenix.packages.${system}.stable;
 
   cargoNix = callPackage ../Cargo.nix {
     pkgs = pkgs.extend (final: prev: {
