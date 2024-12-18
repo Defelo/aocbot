@@ -1660,9 +1660,9 @@ rec {
       };
       "deadpool-sqlite" = rec {
         crateName = "deadpool-sqlite";
-        version = "0.8.1";
+        version = "0.9.0";
         edition = "2021";
-        sha256 = "1sg0x0cbqqcw560miywan9zhkrrwhg9abqllsg7bgy0n0chwd71g";
+        sha256 = "0p0myjd5byxy79zbrcpka7jvnhc8ndyfli906dgwc6dq3by18vv5";
         libName = "deadpool_sqlite";
         authors = [
           "Michael P. Jung <michael.jung@terreon.de>"
@@ -2173,6 +2173,22 @@ rec {
             packageId = "readlock";
           }
           {
+            name = "readlock-tokio";
+            packageId = "readlock-tokio";
+            optional = true;
+          }
+          {
+            name = "tokio";
+            packageId = "tokio";
+            optional = true;
+            features = [ "sync" ];
+          }
+          {
+            name = "tokio-util";
+            packageId = "tokio-util";
+            optional = true;
+          }
+          {
             name = "tracing";
             packageId = "tracing";
             optional = true;
@@ -2180,12 +2196,19 @@ rec {
             features = [ "std" ];
           }
         ];
+        devDependencies = [
+          {
+            name = "tokio";
+            packageId = "tokio";
+            features = [ "sync" "macros" "rt" ];
+          }
+        ];
         features = {
           "__bench" = [ "dep:criterion" "dep:tokio" "tokio?/rt-multi-thread" ];
           "async-lock" = [ "dep:readlock-tokio" "dep:tokio" "dep:tokio-util" ];
           "tracing" = [ "dep:tracing" ];
         };
-        resolvedDefaultFeatures = [ "tracing" ];
+        resolvedDefaultFeatures = [ "async-lock" "tracing" ];
       };
       "eyeball-im" = rec {
         crateName = "eyeball-im";
@@ -4067,27 +4090,6 @@ rec {
         };
         resolvedDefaultFeatures = [ "default" "use_alloc" "use_std" ];
       };
-      "itertools 0.12.1" = rec {
-        crateName = "itertools";
-        version = "0.12.1";
-        edition = "2018";
-        sha256 = "0s95jbb3ndj1lvfxyq5wanc0fm0r6hg6q4ngb92qlfdxvci10ads";
-        authors = [
-          "bluss"
-        ];
-        dependencies = [
-          {
-            name = "either";
-            packageId = "either";
-            usesDefaultFeatures = false;
-          }
-        ];
-        features = {
-          "default" = [ "use_std" ];
-          "use_std" = [ "use_alloc" "either/use_std" ];
-        };
-        resolvedDefaultFeatures = [ "default" "use_alloc" "use_std" ];
-      };
       "itertools 0.13.0" = rec {
         crateName = "itertools";
         version = "0.13.0";
@@ -4285,10 +4287,10 @@ rec {
       };
       "libsqlite3-sys" = rec {
         crateName = "libsqlite3-sys";
-        version = "0.28.0";
+        version = "0.30.1";
         edition = "2021";
         links = "sqlite3";
-        sha256 = "0gzwfw0n2wqgaihcgj65wzd3lclfxyy62gixq8sv6z04fi15h40c";
+        sha256 = "0jcikvgbj84xc7ikdmpc8m4y5lyqgrb9aqblphwk67kv95xgp69f";
         libName = "libsqlite3_sys";
         authors = [
           "The rusqlite developers"
@@ -4611,9 +4613,9 @@ rec {
       };
       "matrix-sdk" = rec {
         crateName = "matrix-sdk";
-        version = "0.8.0";
+        version = "0.9.0";
         edition = "2021";
-        sha256 = "1l6jqw89kdagyx7m168nhkma94k8zfgff21mr8v8nvh7lclv5qp5";
+        sha256 = "0hygdzfvh75dzz2lnbqgll9z18fwb262n45hsl3dirk2jgkrjnng";
         libName = "matrix_sdk";
         authors = [
           "Damir Jelić <poljar@termina.org.uk>"
@@ -4735,6 +4737,10 @@ rec {
             packageId = "mime2ext";
           }
           {
+            name = "once_cell";
+            packageId = "once_cell";
+          }
+          {
             name = "pin-project-lite";
             packageId = "pin-project-lite";
           }
@@ -4754,7 +4760,7 @@ rec {
           {
             name = "ruma";
             packageId = "ruma";
-            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "rand" "unstable-msc2448" "unstable-msc2965" "unstable-msc3930" "unstable-msc3245-v1-compat" "unstable-msc2867" ];
+            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "unstable-msc4171" "rand" "unstable-msc2448" "unstable-msc2965" "unstable-msc3930" "unstable-msc3245-v1-compat" "unstable-msc2867" ];
           }
           {
             name = "serde";
@@ -4774,7 +4780,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "tokio";
@@ -4870,9 +4876,9 @@ rec {
       };
       "matrix-sdk-base" = rec {
         crateName = "matrix-sdk-base";
-        version = "0.8.0";
+        version = "0.9.0";
         edition = "2021";
-        sha256 = "1cisbf59pbi9a3w5k8wp3485ll0schx4sp8011296kv2zx1dwvhj";
+        sha256 = "06ifw4r6bnlngs2q36zicap76f54dgsjqh4xmw24h7gbfkgwf837";
         libName = "matrix_sdk_base";
         authors = [
           "Damir Jelić <poljar@termina.org.uk>"
@@ -4898,7 +4904,7 @@ rec {
           {
             name = "eyeball";
             packageId = "eyeball";
-            features = [ "tracing" ];
+            features = [ "tracing" "async-lock" ];
           }
           {
             name = "eyeball-im";
@@ -4937,7 +4943,7 @@ rec {
           {
             name = "ruma";
             packageId = "ruma";
-            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "canonical-json" "unstable-msc3381" "unstable-msc2867" "rand" ];
+            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "unstable-msc4171" "canonical-json" "unstable-msc3381" "unstable-msc2867" "rand" ];
           }
           {
             name = "serde";
@@ -4950,7 +4956,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "tokio";
@@ -4984,6 +4990,7 @@ rec {
           "experimental-sliding-sync" = [ "ruma/unstable-msc3575" "ruma/unstable-msc4186" ];
           "js" = [ "matrix-sdk-common/js" "matrix-sdk-crypto?/js" "ruma/js" "matrix-sdk-store-encryption/js" ];
           "qrcode" = [ "matrix-sdk-crypto?/qrcode" ];
+          "test-send-sync" = [ "matrix-sdk-crypto?/test-send-sync" ];
           "testing" = [ "dep:assert_matches" "dep:assert_matches2" "dep:http" "dep:matrix-sdk-test" "matrix-sdk-crypto?/testing" ];
           "uniffi" = [ "dep:uniffi" "matrix-sdk-crypto?/uniffi" "matrix-sdk-common/uniffi" ];
         };
@@ -4991,9 +4998,9 @@ rec {
       };
       "matrix-sdk-common" = rec {
         crateName = "matrix-sdk-common";
-        version = "0.8.0";
+        version = "0.9.0";
         edition = "2021";
-        sha256 = "0xfx39sd4zharqmz2z0jpf7fyjss8j11dsv73m27aqsq2c25nd8w";
+        sha256 = "0h7lgzqzr7d0wnmrgmmk0gr0ircjn5dv7603k9syz36p8diwbr1y";
         libName = "matrix_sdk_common";
         authors = [
           "Damir Jelić <poljar@termina.org.uk>"
@@ -5035,7 +5042,7 @@ rec {
           {
             name = "ruma";
             packageId = "ruma";
-            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" ];
+            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "unstable-msc4171" ];
           }
           {
             name = "serde";
@@ -5047,13 +5054,20 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "tokio";
             packageId = "tokio";
             usesDefaultFeatures = false;
             features = [ "sync" "rt" "time" ];
+          }
+          {
+            name = "tokio";
+            packageId = "tokio";
+            usesDefaultFeatures = false;
+            target = { target, features }: (!("wasm32" == target."arch" or null));
+            features = [ "sync" "rt" "macros" ];
           }
           {
             name = "tracing";
@@ -5094,9 +5108,9 @@ rec {
       };
       "matrix-sdk-crypto" = rec {
         crateName = "matrix-sdk-crypto";
-        version = "0.8.0";
+        version = "0.9.0";
         edition = "2021";
-        sha256 = "11cf3vwvlh5f75m1v0k7fdrw0cgpyvzj90hp4s20xwm6j3z6fng4";
+        sha256 = "1w5fz5b36b3niqlvslxr1b30a6n1mglcxwa36vk7r3k6k7pag5bk";
         libName = "matrix_sdk_crypto";
         authors = [
           "Damir Jelić <poljar@termina.org.uk>"
@@ -5105,6 +5119,10 @@ rec {
           {
             name = "aes";
             packageId = "aes";
+          }
+          {
+            name = "aquamarine";
+            packageId = "aquamarine";
           }
           {
             name = "as_variant";
@@ -5153,7 +5171,7 @@ rec {
           }
           {
             name = "itertools";
-            packageId = "itertools 0.12.1";
+            packageId = "itertools 0.13.0";
           }
           {
             name = "js_option";
@@ -5166,7 +5184,6 @@ rec {
           {
             name = "pbkdf2";
             packageId = "pbkdf2";
-            usesDefaultFeatures = false;
           }
           {
             name = "rand";
@@ -5179,7 +5196,7 @@ rec {
           {
             name = "ruma";
             packageId = "ruma";
-            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "rand" "canonical-json" "unstable-msc3814" ];
+            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "unstable-msc4171" "rand" "canonical-json" "unstable-msc3814" ];
           }
           {
             name = "serde";
@@ -5200,7 +5217,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "time";
@@ -5276,9 +5293,9 @@ rec {
       };
       "matrix-sdk-indexeddb" = rec {
         crateName = "matrix-sdk-indexeddb";
-        version = "0.8.0";
+        version = "0.9.0";
         edition = "2021";
-        sha256 = "1w55x4m52xmn5bdvyqmxgm0sqdwxjnwgir4lamkpmjdrnq51ng5a";
+        sha256 = "12cmh41bgvh25sqgi033sqna94afga48p0p7ssjmcqkypqs69y3j";
         libName = "matrix_sdk_indexeddb";
         dependencies = [
           {
@@ -5329,7 +5346,7 @@ rec {
           {
             name = "ruma";
             packageId = "ruma";
-            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" ];
+            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "unstable-msc4171" ];
           }
           {
             name = "serde";
@@ -5349,7 +5366,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "tokio";
@@ -5400,9 +5417,9 @@ rec {
       };
       "matrix-sdk-sqlite" = rec {
         crateName = "matrix-sdk-sqlite";
-        version = "0.8.0";
+        version = "0.9.0";
         edition = "2021";
-        sha256 = "15sb8zdn8irifhyzm2ghgzbazfrl2dmd13vj3wa8kaws6xjcihs5";
+        sha256 = "1gqn4kx3pw3702n2z8mba0xpp70ygk59g35sr9s1ipp2bnzxbigf";
         libName = "matrix_sdk_sqlite";
         dependencies = [
           {
@@ -5415,7 +5432,7 @@ rec {
           }
           {
             name = "itertools";
-            packageId = "itertools 0.12.1";
+            packageId = "itertools 0.13.0";
           }
           {
             name = "matrix-sdk-base";
@@ -5438,7 +5455,7 @@ rec {
           {
             name = "ruma";
             packageId = "ruma";
-            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" ];
+            features = [ "client-api-c" "compat-upload-signatures" "compat-user-id" "compat-arbitrary-length-ids" "compat-tag-info" "compat-encrypted-stickers" "unstable-msc3401" "unstable-msc3266" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4140" "unstable-msc4171" ];
           }
           {
             name = "rusqlite";
@@ -5455,7 +5472,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "tokio";
@@ -5505,9 +5522,9 @@ rec {
       };
       "matrix-sdk-store-encryption" = rec {
         crateName = "matrix-sdk-store-encryption";
-        version = "0.8.0";
+        version = "0.9.0";
         edition = "2021";
-        sha256 = "13ac2agdjsqm50yiimxqfxx4fjsmw54j6hhhxm4jix5vzl0c01cx";
+        sha256 = "1j6v0sl6wwzw4dznsx1y03rby84na92m3r54w7r8na3glpbas0np";
         libName = "matrix_sdk_store_encryption";
         dependencies = [
           {
@@ -5554,7 +5571,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "zeroize";
@@ -6666,6 +6683,30 @@ rec {
           "lite" = [ "dep:rclite" ];
         };
       };
+      "readlock-tokio" = rec {
+        crateName = "readlock-tokio";
+        version = "0.1.3";
+        edition = "2021";
+        sha256 = "0lqnj4narlbp4cwk8d94x8f4m12mx168ps7lbizah53js1jaqzw6";
+        libName = "readlock_tokio";
+        dependencies = [
+          {
+            name = "tokio";
+            packageId = "tokio";
+            features = [ "sync" ];
+          }
+        ];
+        devDependencies = [
+          {
+            name = "tokio";
+            packageId = "tokio";
+            features = [ "macros" "rt" "time" ];
+          }
+        ];
+        features = {
+          "lite" = [ "dep:rclite" ];
+        };
+      };
       "regex" = rec {
         crateName = "regex";
         version = "1.11.1";
@@ -7268,9 +7309,9 @@ rec {
       };
       "ruma" = rec {
         crateName = "ruma";
-        version = "0.11.1";
+        version = "0.12.0";
         edition = "2021";
-        sha256 = "12nljvx6wh8m7lpg5arhcgi9l3ik860n11vc1qbf39g8i90q8jg9";
+        sha256 = "02h03m33p59hr61gvpjdn00k53j25iiybpnzqb2vj61xy750y47m";
         dependencies = [
           {
             name = "assign";
@@ -7310,7 +7351,7 @@ rec {
         ];
         features = {
           "__ci" = [ "full" "compat-upload-signatures" "__unstable-mscs" "unstable-unspecified" ];
-          "__unstable-mscs" = [ "unstable-msc1767" "unstable-msc2409" "unstable-msc2448" "unstable-msc2654" "unstable-msc2666" "unstable-msc2747" "unstable-msc2867" "unstable-msc2870" "unstable-msc2965" "unstable-msc2967" "unstable-msc3061" "unstable-msc3202" "unstable-msc3245" "unstable-msc3245-v1-compat" "unstable-msc3246" "unstable-msc3266" "unstable-msc3381" "unstable-msc3401" "unstable-msc3488" "unstable-msc3489" "unstable-msc3551" "unstable-msc3552" "unstable-msc3553" "unstable-msc3554" "unstable-msc3575" "unstable-msc3618" "unstable-msc3723" "unstable-msc3814" "unstable-msc3843" "unstable-msc3927" "unstable-msc3930" "unstable-msc3931" "unstable-msc3932" "unstable-msc3954" "unstable-msc3955" "unstable-msc3956" "unstable-msc3983" "unstable-msc4075" "unstable-msc4095" "unstable-msc4108" "unstable-msc4121" "unstable-msc4125" "unstable-msc4140" "unstable-msc4186" ];
+          "__unstable-mscs" = [ "unstable-msc1767" "unstable-msc2409" "unstable-msc2448" "unstable-msc2654" "unstable-msc2666" "unstable-msc2747" "unstable-msc2867" "unstable-msc2870" "unstable-msc2965" "unstable-msc2967" "unstable-msc3061" "unstable-msc3202" "unstable-msc3245" "unstable-msc3245-v1-compat" "unstable-msc3246" "unstable-msc3266" "unstable-msc3381" "unstable-msc3401" "unstable-msc3488" "unstable-msc3489" "unstable-msc3551" "unstable-msc3552" "unstable-msc3553" "unstable-msc3554" "unstable-msc3575" "unstable-msc3618" "unstable-msc3723" "unstable-msc3814" "unstable-msc3843" "unstable-msc3927" "unstable-msc3930" "unstable-msc3931" "unstable-msc3932" "unstable-msc3954" "unstable-msc3955" "unstable-msc3956" "unstable-msc3983" "unstable-msc4075" "unstable-msc4095" "unstable-msc4108" "unstable-msc4121" "unstable-msc4125" "unstable-msc4140" "unstable-msc4151" "unstable-msc4171" "unstable-msc4186" ];
           "api" = [ "ruma-common/api" ];
           "appservice-api" = [ "appservice-api-c" "appservice-api-s" ];
           "appservice-api-c" = [ "api" "events" "dep:ruma-appservice-api" "ruma-appservice-api?/client" ];
@@ -7363,7 +7404,6 @@ rec {
           "server-util" = [ "dep:ruma-server-util" ];
           "signatures" = [ "dep:ruma-signatures" "canonical-json" ];
           "state-res" = [ "dep:ruma-state-res" ];
-          "unstable-exhaustive-types" = [ "ruma-common/unstable-exhaustive-types" "ruma-appservice-api?/unstable-exhaustive-types" "ruma-client-api?/unstable-exhaustive-types" "ruma-federation-api?/unstable-exhaustive-types" "ruma-identity-service-api?/unstable-exhaustive-types" "ruma-push-gateway-api?/unstable-exhaustive-types" "ruma-signatures?/unstable-exhaustive-types" "ruma-state-res?/unstable-exhaustive-types" "ruma-events?/unstable-exhaustive-types" ];
           "unstable-extensible-events" = [ "unstable-msc3246" "unstable-msc3488" "unstable-msc3553" "unstable-msc3954" "unstable-msc3955" ];
           "unstable-msc1767" = [ "ruma-events?/unstable-msc1767" ];
           "unstable-msc2409" = [ "ruma-appservice-api?/unstable-msc2409" ];
@@ -7408,17 +7448,19 @@ rec {
           "unstable-msc4121" = [ "ruma-client-api?/unstable-msc4121" ];
           "unstable-msc4125" = [ "ruma-federation-api?/unstable-msc4125" ];
           "unstable-msc4140" = [ "ruma-client-api?/unstable-msc4140" ];
+          "unstable-msc4151" = [ "ruma-client-api?/unstable-msc4151" ];
+          "unstable-msc4171" = [ "ruma-events?/unstable-msc4171" ];
           "unstable-msc4186" = [ "ruma-client-api?/unstable-msc4186" ];
           "unstable-pdu" = [ "ruma-events?/unstable-pdu" ];
-          "unstable-unspecified" = [ "ruma-common/unstable-unspecified" "ruma-federation-api?/unstable-unspecified" "ruma-push-gateway-api?/unstable-unspecified" ];
+          "unstable-unspecified" = [ "ruma-common/unstable-unspecified" "ruma-federation-api?/unstable-unspecified" ];
         };
-        resolvedDefaultFeatures = [ "api" "canonical-json" "client-api-c" "compat-arbitrary-length-ids" "compat-encrypted-stickers" "compat-tag-info" "compat-upload-signatures" "compat-user-id" "events" "js" "markdown" "rand" "unstable-msc2448" "unstable-msc2867" "unstable-msc2965" "unstable-msc3245-v1-compat" "unstable-msc3266" "unstable-msc3381" "unstable-msc3401" "unstable-msc3488" "unstable-msc3489" "unstable-msc3814" "unstable-msc3930" "unstable-msc4075" "unstable-msc4140" ];
+        resolvedDefaultFeatures = [ "api" "canonical-json" "client-api-c" "compat-arbitrary-length-ids" "compat-encrypted-stickers" "compat-tag-info" "compat-upload-signatures" "compat-user-id" "events" "js" "markdown" "rand" "unstable-msc2448" "unstable-msc2867" "unstable-msc2965" "unstable-msc3245-v1-compat" "unstable-msc3266" "unstable-msc3381" "unstable-msc3401" "unstable-msc3488" "unstable-msc3489" "unstable-msc3814" "unstable-msc3930" "unstable-msc4075" "unstable-msc4140" "unstable-msc4171" ];
       };
       "ruma-client-api" = rec {
         crateName = "ruma-client-api";
-        version = "0.19.0";
+        version = "0.20.0";
         edition = "2021";
-        sha256 = "0j5dlip6jrkd6il4gddqdhn3zrk1dlsni63xfq05qm6mp16hapij";
+        sha256 = "14ckn6067z6w5l7jhsills97ybc64z2v3fng5nrav5jscygr5x95";
         libName = "ruma_client_api";
         dependencies = [
           {
@@ -7478,7 +7520,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "url";
@@ -7491,15 +7533,14 @@ rec {
           }
         ];
         features = {
-          "unstable-exhaustive-types" = [ "ruma-common/unstable-exhaustive-types" ];
         };
         resolvedDefaultFeatures = [ "client" "compat-upload-signatures" "unstable-msc2448" "unstable-msc2965" "unstable-msc3266" "unstable-msc3488" "unstable-msc3814" "unstable-msc4140" ];
       };
       "ruma-common" = rec {
         crateName = "ruma-common";
-        version = "0.14.1";
+        version = "0.15.0";
         edition = "2021";
-        sha256 = "1a5x70hwqh03kn2qxszba25lvymfk97x6fc34ax4g85skbscfwdd";
+        sha256 = "1fnqr3mbnkxw0whdy5gj0crd23ghm8jxhk5zm5d6a4h3nacphlvc";
         libName = "ruma_common";
         dependencies = [
           {
@@ -7590,7 +7631,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "time";
@@ -7636,9 +7677,9 @@ rec {
       };
       "ruma-events" = rec {
         crateName = "ruma-events";
-        version = "0.29.1";
+        version = "0.30.0";
         edition = "2021";
-        sha256 = "1b9dwq1y5rkxrivhr96xqrpn9gcb3z7a9gf19lgqqn046p7xr1my";
+        sha256 = "087jrszzfkc61niwgv310gasadpwycc95gcrl58jzilqnlpggr1l";
         libName = "ruma_events";
         dependencies = [
           {
@@ -7700,7 +7741,7 @@ rec {
           }
           {
             name = "thiserror";
-            packageId = "thiserror 1.0.69";
+            packageId = "thiserror 2.0.3";
           }
           {
             name = "tracing";
@@ -7741,13 +7782,13 @@ rec {
           "unstable-msc3956" = [ "unstable-msc1767" ];
           "unstable-msc4075" = [ "unstable-msc3401" ];
         };
-        resolvedDefaultFeatures = [ "canonical-json" "compat-encrypted-stickers" "compat-tag-info" "markdown" "unstable-msc1767" "unstable-msc2448" "unstable-msc2867" "unstable-msc3245-v1-compat" "unstable-msc3381" "unstable-msc3401" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" ];
+        resolvedDefaultFeatures = [ "canonical-json" "compat-encrypted-stickers" "compat-tag-info" "markdown" "unstable-msc1767" "unstable-msc2448" "unstable-msc2867" "unstable-msc3245-v1-compat" "unstable-msc3381" "unstable-msc3401" "unstable-msc3488" "unstable-msc3489" "unstable-msc4075" "unstable-msc4171" ];
       };
       "ruma-federation-api" = rec {
         crateName = "ruma-federation-api";
-        version = "0.10.0";
+        version = "0.11.0";
         edition = "2021";
-        sha256 = "1yla47vl09qlrv4nlcjcl2mmc6vym34lslahlgvjnddk4an0jnhv";
+        sha256 = "1pa08dbv85jk7l3y7ry00p6jnc5d0ss6qy55x8m9jhlfgb9w6w2x";
         libName = "ruma_federation_api";
         dependencies = [
           {
@@ -7816,19 +7857,15 @@ rec {
       };
       "ruma-macros" = rec {
         crateName = "ruma-macros";
-        version = "0.14.0";
+        version = "0.15.0";
         edition = "2021";
-        sha256 = "0d0rcdlf8llq14052q9v01c6gm1ix2640pkwiy77b3hfn8y7vmf8";
+        sha256 = "1yy4nfvrj77z0kfvsamzyhnzgwav682xk3c9r59q4rkql9gcayzz";
         procMacro = true;
         libName = "ruma_macros";
         dependencies = [
           {
             name = "cfg-if";
             packageId = "cfg-if";
-          }
-          {
-            name = "once_cell";
-            packageId = "once_cell";
           }
           {
             name = "proc-macro-crate";
@@ -7869,9 +7906,9 @@ rec {
       };
       "rusqlite" = rec {
         crateName = "rusqlite";
-        version = "0.31.0";
+        version = "0.32.1";
         edition = "2021";
-        sha256 = "1bic69apqidimqf8gm80b98a832qzl9x6ns8myzah4yjg2ifnf5q";
+        sha256 = "0vlx040bppl414pbjgbp7qr4jdxwszi9krx0m63zzf2f2whvflvp";
         authors = [
           "The rusqlite developers"
         ];
@@ -7916,6 +7953,7 @@ rec {
           "loadable_extension" = [ "libsqlite3-sys/loadable_extension" ];
           "modern-full" = [ "array" "backup" "blob" "modern_sqlite" "chrono" "collation" "column_decltype" "csvtab" "extra_check" "functions" "hooks" "i128_blob" "limits" "load_extension" "serde_json" "series" "time" "trace" "unlock_notify" "url" "uuid" "vtab" "window" ];
           "modern_sqlite" = [ "libsqlite3-sys/bundled_bindings" ];
+          "preupdate_hook" = [ "libsqlite3-sys/preupdate_hook" "hooks" ];
           "rusqlite-macros" = [ "dep:rusqlite-macros" ];
           "serde_json" = [ "dep:serde_json" ];
           "serialize" = [ "modern_sqlite" ];
